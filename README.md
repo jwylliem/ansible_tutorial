@@ -106,4 +106,61 @@ BECOME password:
     "cache_updated": false,
     "changed": false
 }
+```
+
+12. You can see the logs of apt in /var/log/apt/history 
+```
+Start-Date: 2025-08-20  15:34:25
+Commandline: /usr/bin/apt-get -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold install vim-nox=2:9.1.0016-1ubuntu7.8
+Requested-By: ubuntu (1000)
+Install: ruby-sdbm:amd64 (1.0.0-5build4, automatic), zip:amd64 (3.0-13ubuntu0.2, automatic), liblua5.1-0:amd64 (5.1.5-9build2, automatic), fonts-lato:amd64 (2.015-1, automatic), libruby:amd64 (1:3.2~ubuntu1, automatic), ruby-net-telnet:amd64 (0.2.0-1, automatic), rubygems-integration:amd64 (1.18, automatic), libruby3.2:amd64 (3.2.3-1ubuntu0.24.04.5, automatic), rake:amd64 (13.0.6-3, automatic), vim-nox:amd64 (2:9.1.0016-1ubuntu7.8), ruby:amd64 (1:3.2~ubuntu1, auto
+matic), ruby3.2:amd64 (3.2.3-1ubuntu0.24.04.5, automatic), libjs-jquery:amd64 (3.6.1+dfsg+~3.5.14-1, automatic), unzip:amd64 (6.0-28ubuntu4.1, automatic),
 ``` 
+
+13. To Run update with multiple arguments, eg upgrade snapd to latest version, must use quote:
+``` 
+ansible all -m apt -a "name=snapd state=latest" --become --ask-become-pass
+```
+
+14. Create install_apache.yml playbook, and run the playbook:
+```
+ansible-playbook --ask-become-pass install_apache.yml 
+```
+Notice the difference in changed=1 and changed=0, when you run it for the first and second time.
+ansible will only install if the package has not been installed yet.
+
+```
+TASK [install apache2 package] *****************************************************************************************************************************
+changed: [54.255.181.204]
+changed: [13.229.121.144]
+changed: [54.169.218.213]
+
+PLAY RECAP *************************************************************************************************************************************************
+13.229.121.144             : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+54.169.218.213             : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+54.255.181.204             : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ubuntu@ip-172-26-8-114:~/ansible_tutorial$ ls
+README.md  ansible.cfg  install_apache.yml  inventory
+ubuntu@ip-172-26-8-114:~/ansible_tutorial$ vi README.md
+ubuntu@ip-172-26-8-114:~/ansible_tutorial$
+ubuntu@ip-172-26-8-114:~/ansible_tutorial$ ansible-playbook --ask-become-pass install_apache.yml
+BECOME password:
+
+PLAY [all] *************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************
+ok: [54.169.218.213]
+ok: [54.255.181.204]
+ok: [13.229.121.144]
+
+TASK [install apache2 package] *****************************************************************************************************************************
+ok: [54.169.218.213]
+ok: [54.255.181.204]
+ok: [13.229.121.144]
+
+PLAY RECAP *************************************************************************************************************************************************
+13.229.121.144             : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+54.169.218.213             : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+54.255.181.204             : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
