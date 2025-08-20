@@ -164,3 +164,31 @@ PLAY RECAP *********************************************************************
 54.169.218.213             : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 54.255.181.204             : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
+
+And notice the output when we try to find package that does not exist:
+```
+BECOME password:
+
+
+PLAY [all] *************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************
+ok: [54.169.218.213]
+ok: [13.229.121.144]
+ok: [54.255.181.204]
+
+TASK [install apache2 package] *****************************************************************************************************************************
+fatal: [54.169.218.213]: FAILED! => {"changed": false, "msg": "No package matching 'chocobo' is available"}
+fatal: [54.255.181.204]: FAILED! => {"changed": false, "msg": "No package matching 'chocobo' is available"}
+fatal: [13.229.121.144]: FAILED! => {"changed": false, "msg": "No package matching 'chocobo' is available"}
+
+PLAY RECAP *************************************************************************************************************************************************
+13.229.121.144             : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+54.169.218.213             : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+54.255.181.204             : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+```
+
+15. You can specify the state(version of the package), for example latest will always pull the latest version for you
+You can also specify state to absent, in this case ansible will remove the package for you.
+
+
