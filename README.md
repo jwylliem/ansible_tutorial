@@ -192,3 +192,21 @@ PLAY RECAP *********************************************************************
 You can also specify state to absent, in this case ansible will remove the package for you.
 
 
+16. You can state the user of which ansible should use to ssh in the inventory by adding the username
+
+
+17. If you want to check info for specific host you can do:  
+
+```
+ansible all -m gather_facts --limit 54.254.145.34 | grep ansible_distribution
+
+
+ubuntu@ip-172-26-8-114:~/ansible_tutorial$ ansible all -m gather_facts --limit 54.254.145.34 | grep ansible_distribution
+        "ansible_distribution": "CentOS",
+```
+
+18. when condition can be used to target specific server, e.g by `ansible_distribution` or by `ansible_distributiont_version` or both
+```
+when: ansible_distribution == "CentOS" and ansible_distribution_version == "8.2"
+```
+
