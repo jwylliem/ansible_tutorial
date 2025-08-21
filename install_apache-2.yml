@@ -2,11 +2,11 @@
 - hosts: all
   become: true
   tasks:
-  - name: "Install apache2 and php package"
-    package:
+  - name: "Ubuntu - install apache2 and php package"
+    apt:
       name: 
-        - "{{ apache_package }}"
-        - "{{ php_package }}"
+        - apache2
+        - libapache2-mod-php
       state: latest
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
