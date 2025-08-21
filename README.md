@@ -210,3 +210,9 @@ ubuntu@ip-172-26-8-114:~/ansible_tutorial$ ansible all -m gather_facts --limit 5
 when: ansible_distribution == "CentOS" and ansible_distribution_version == "8.2"
 ```
 
+19. List tags available for a specific playbook
+```
+ansible-playbook --list-tags site.yml
+```
+
+
